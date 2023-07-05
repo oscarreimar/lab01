@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+    lab01:
+        build: ./
+        ports: 
+            - "5000:80"
+            
+networks:
+    demored:
