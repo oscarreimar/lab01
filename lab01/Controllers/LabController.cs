@@ -67,7 +67,7 @@ namespace lab01.Controllers
         [Route("Version")]
         public String Version()
         {
-            return "V2" ;
+            return "V3" ;
         }
 
     }
