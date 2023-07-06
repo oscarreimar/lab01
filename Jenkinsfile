@@ -3,7 +3,7 @@ pipeline {
   environment {
     APPNAME = "lab01"
     IMAGE = "lab01"
-    VERSION ="v2"
+    VERSION ="v3"
     REGISTRY="oscarcedeno"
     DOCKER_HUB_LOGIN = credentials('oscarcedeno')
     PORT = "8091"
