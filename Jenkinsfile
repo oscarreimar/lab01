@@ -4,7 +4,7 @@ pipeline {
     stage('Build Image'){
       steps {
         sh "pwd"
-        sh 'docker build -t lab01:1 .'
+        sh 'docker build -t lab01:v1 .'
       }
     }
   }
