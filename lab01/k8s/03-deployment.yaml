@@ -1,0 +1,62 @@
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: devops
+spec:
+  selector:
+    matchLabels:
+      app: devops
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: devops
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:apline
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        livenessProbe:
+          tcpSocket:
+            port: 80
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /_status/healthz
+            port: 80
+          initialDelaySeconds: 5
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
+        env:
+        - name: ACCEPT_EULA
+          value: "Y"
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: myjob
+              key: DB_HOST
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: myjob
+              key: MSSQL_SA_PASSWORD
+        ports:
+        - containerPort: 80
+          name: myjob
+      
