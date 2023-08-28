@@ -1,0 +1,43 @@
+# https://kubernetes.io/docs/concepts/workloads/pods/
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "nginx"
+  namespace: default
+  labels:
+    app: "nginx"
+spec:
+  containers:
+  - name: nginx
+    image: "nginx:alpine"
+    resources:
+      limits:
+        cpu: 200m
+        memory: 500Mi
+      requests:
+        cpu: 100m
+        memory: 200Mi
+    env:
+    - name: VARIABLE_1
+      value: "VALOR 1"
+    - name: VARIABLE_2
+      value: "VALOR 2"
+    - name: DB_AGENT_HOST
+      valueFrom:
+        fieldRef:
+          fieldPath: status.hostIP
+    readinessProbe:
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 5
+      periodSeconds: 10
+    livenessProbe:
+      tcpSocket:
+        port: 80
+      initialDelaySeconds: 15
+      periodSeconds: 20
+    ports:
+    - containerPort: 80
+      name: http
+    
