@@ -1,0 +1,14 @@
+# https://kubernetes.io/docs/concepts/workloads/pods/
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "nginx"
+  namespace: default
+  labels:
+    app: "nginx"
+    owner: "Oscar"
+spec:
+  containers:
+  - name: nginx
+    image: "nginx:alpine"    
+
