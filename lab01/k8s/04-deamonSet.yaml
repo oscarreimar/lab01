@@ -1,0 +1,49 @@
+# https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: nginx-daemonset
+  labels:
+    app: devops
+spec:
+  selector:
+    matchLabels:
+      app: devops
+  template:
+    metadata:
+      labels:
+        app: devops
+    spec:
+      containers:
+      - name: nginx
+        image: "nginx:alpine"
+        resources:
+          limits:
+            cpu: 200m
+            memory: 500Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+        env:
+        - name: VARIABLE_1
+          value: "VALOR 1"
+        - name: VARIABLE_2
+          value: "VALOR 2"
+        - name: DD_AGEN_HOST
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        ports:
+        - containerPort: 80
+          name: http
